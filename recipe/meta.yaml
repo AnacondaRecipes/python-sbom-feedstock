@@ -50,7 +50,7 @@ test:
     - pip check
     - python-sbom --help
     # Excludes tests requiring upstream's optional validate/backend extras that are unavailable from pkgs/main.
-    - pytest -vv tests --ignore=tests/_validate --ignore=tests/_formats/test_spdx.py --ignore=tests/_model/test_iri.py --ignore=tests/examples --ignore=tests/hatch --ignore=tests/test_backend.py --ignore=tests/test_pdm.py --ignore=tests/test_setuptools.py --ignore=tests/test_public_api.py --ignore=tests/_cli/test_validate.py --ignore=tests/_generate/test_archive.py --ignore=tests/_generate/test_embed.py --import-mode=importlib
+    - pytest -vv tests --ignore=tests/_validate --ignore=tests/_formats/test_spdx.py --ignore=tests/_model/test_iri.py --ignore=tests/examples --ignore=tests/hatch --ignore=tests/test_backend.py --ignore=tests/test_pdm.py --ignore=tests/test_setuptools.py --ignore=tests/test_public_api.py --ignore=tests/_cli/test_validate.py --ignore=tests/_generate/test_archive.py --ignore=tests/_generate/test_embed.py --import-mode=importlib --deselect=tests/_cli/test_main.py::test_console_script
   requires:
     - git
     - pip

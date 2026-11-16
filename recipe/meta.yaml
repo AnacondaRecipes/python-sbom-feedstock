@@ -1,0 +1,78 @@
+{% set name = "python-sbom" %}
+{% set version = "0.3.1" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/p/python-sbom/python_sbom-{{ version }}.tar.gz
+  sha256: 37d0fa3d0a16fddc3d88099e147e164ddb3055e8bc3424506ef41dd80f723a73
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --no-deps --no-build-isolation . -vv
+  skip: true  # [py<311]
+  entry_points:
+    - python-sbom = python_sbom._cli._main:main
+
+requirements:
+  host:
+    - pip
+    - python
+    - hatch-fancy-pypi-readme >=25.1
+    - hatch-vcs >=0.5
+    - hatchling >=1.32.4
+    - python-installer >=1.1
+    - packageurl-python >=0.11.1
+    - zipremove >=0.10
+  run:
+    - python
+    - python-installer >=1.1
+    - packageurl-python >=0.11.1
+    - packaging >=26.3
+    - zipremove >=0.10
+  run_constrained:
+    # Non-dev extras are soft constraints; test/dev/docs extras are intentionally omitted.
+    - hatchling >=1.28
+    - pdm-backend >=2.4
+    - setuptools >=77
+    - jsonschema-rs >=0.60.3
+    - license-expression >=30
+    - spdx-tools >=0.8.5
+
+test:
+  source_files:
+    - tests
+  imports:
+    - python_sbom
+  commands:
+    - pip check
+    - python-sbom --help
+    # Excludes tests requiring upstream's optional validate/backend extras that are unavailable from pkgs/main.
+    - pytest -vv tests --ignore=tests/_validate --ignore=tests/_formats/test_spdx.py --ignore=tests/_model/test_iri.py --ignore=tests/examples --ignore=tests/hatch --ignore=tests/test_backend.py --ignore=tests/test_pdm.py --ignore=tests/test_setuptools.py --ignore=tests/test_public_api.py --ignore=tests/_cli/test_validate.py --ignore=tests/_generate/test_archive.py --ignore=tests/_generate/test_embed.py --import-mode=importlib
+  requires:
+    - pip
+    - pytest
+    - pytest-mock
+
+about:
+  home: https://github.com/tox-dev/python-sbom
+  license: MIT AND Apache-2.0
+  license_family: Other
+  license_file:
+    - LICENSE
+    - src/python_sbom/_validate/schemas/LICENSE
+  summary: SBOMs for Python distributions - write PEP 770 CycloneDX software bills of materials into wheels
+  description: |
+    python-sbom writes PEP 770 CycloneDX software bills of materials into Python
+    wheels. It ships build hooks for hatchling, setuptools, pdm-backend and other
+    backends, plus a library API that assembles an SBOM from a built wheel.
+  doc_url: https://python-sbom.readthedocs.io
+  dev_url: https://github.com/tox-dev/python-sbom/tree/0.3.1
+
+extra:
+  recipe-maintainers:
+    - beenje
+  skip-lints:
+    - python_build_tools_in_host  # runtime dependency and optional build-backend extra bounds belong in run sections

@@ -1,18 +1,5 @@
 {% set name = "python-sbom" %}
 {% set version = "0.3.1" %}
-# Excludes tests requiring upstream's optional validate/backend extras that are unavailable from pkgs/main.
-{% set ignored_tests = " --ignore=tests/_validate" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/_formats/test_spdx.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/_model/test_iri.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/examples" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/hatch" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_backend.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_pdm.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_setuptools.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/test_public_api.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/_cli/test_validate.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/_generate/test_archive.py" %}
-{% set ignored_tests = ignored_tests + " --ignore=tests/_generate/test_embed.py" %}
 
 package:
   name: {{ name }}
@@ -52,6 +39,20 @@ requirements:
     - jsonschema-rs >=0.60.3
     - license-expression >=30
     - spdx-tools >=0.8.5
+
+# Excludes tests requiring upstream's optional validate/backend extras that are unavailable from pkgs/main.
+{% set ignored_tests = " --ignore=tests/_validate" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/_formats/test_spdx.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/_model/test_iri.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/examples" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/hatch" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/test_backend.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/test_pdm.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/test_setuptools.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/test_public_api.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/_cli/test_validate.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/_generate/test_archive.py" %}
+{% set ignored_tests = ignored_tests + " --ignore=tests/_generate/test_embed.py" %}
 
 test:
   source_files:
